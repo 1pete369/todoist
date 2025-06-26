@@ -1,4 +1,3 @@
-import MoreButton from "@/components/MoreButton"
 import { Colors } from "@/constants/Colors"
 import { Stack } from "expo-router"
 import React from "react"
@@ -18,7 +17,8 @@ export default function TodayLayout() {
           title: "Search",
           headerLargeTitle: true,
           headerSearchBarOptions : {
-            placeholder : "Tasks, Projects and more"
+            placeholder : "Tasks, Projects and more",
+            tintColor : Colors.primary
           }
         }}
       />

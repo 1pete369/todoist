@@ -56,7 +56,7 @@ export default function LoginScreen() {
     try {
       const success = await login({ email, password });
       if (success) {
-        router.replace('/(authenticated)');
+        router.replace('/(authenticated)/(tabs)/today');
       }
     } catch (err: any) {
       console.log('Error at handle login', err.response?.data?.message);

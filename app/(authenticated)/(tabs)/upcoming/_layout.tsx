@@ -17,7 +17,7 @@ export default function TodayLayout() {
         options={{
           title: "Upcoming",
           headerShadowVisible: false,
-          headerRight : ()=> <MoreButton />
+          headerRight : ()=> <MoreButton pageName="Upcoming"/>
         }}
       />
     </Stack>

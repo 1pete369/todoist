@@ -1,13 +1,12 @@
-import ScreenLayout from "@/components/layouts/ScreenLayout"
+import Fab from "@/components/Fab"
 import React from "react"
 import { Text, View } from "react-native"
 
 export default function Today() {
   return (
-    <ScreenLayout>
-      <View>
-        <Text>Today</Text>
-      </View>
-    </ScreenLayout>
+    <View className="flex-1">
+      <Text>Today</Text>
+      <Fab />
+    </View>
   )
 }

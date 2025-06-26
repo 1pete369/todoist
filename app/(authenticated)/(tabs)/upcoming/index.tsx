@@ -1,13 +1,14 @@
-import ScreenLayout from "@/components/layouts/ScreenLayout"
+import Fab from "@/components/Fab"
 import React from "react"
 import { Text, View } from "react-native"
 
 export default function Upcoming() {
   return (
-    <ScreenLayout>
+    <>
       <View>
         <Text>Upcoming</Text>
       </View>
-    </ScreenLayout>
+      <Fab />
+    </>
   )
 }

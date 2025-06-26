@@ -89,7 +89,7 @@ export default function SignupScreen() {
       console.log('Data', data);
       const success = await signup(data);
       if (success) {
-        router.replace('/(authenticated)');
+        router.replace('/(authenticated)/(tabs)/today');
       }
       console.log('Success', success);
     } catch (err: any) {

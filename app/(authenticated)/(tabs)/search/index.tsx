@@ -1,13 +1,16 @@
-import ScreenLayout from "@/components/layouts/ScreenLayout"
+import Fab from "@/components/Fab"
 import React from "react"
-import { Text, View } from "react-native"
+import { ScrollView, Text, View } from "react-native"
 
 export default function Search() {
   return (
-    <ScreenLayout>
-      <View>
-        <Text>Search</Text>
-      </View>
-    </ScreenLayout>
-  )
+    <>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
+          <Text>Search</Text>
+        </View>
+      </ScrollView>
+      <Fab />
+    </>
+)
 }
