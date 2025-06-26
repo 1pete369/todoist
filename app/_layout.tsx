@@ -1,29 +1,58 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+// app/_layout.tsx
+import { UserProvider, useUserContext } from "@/context/useAuthContext";
+import { Slot, useRouter, useSegments } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import Toast from "react-native-toast-message";
+import * as SplashScreen from "expo-splash-screen";
+import "../global.css";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Keep the splash screen visible until we explicitly hide it
+SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+function Gate() {
+  const { user, isCheckingAuth } = useUserContext();
+  const router = useRouter();
+  const segments = useSegments();
+  const [ready, setReady] = useState(false);
+  const hasNavigated = useRef(false);
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
+  useEffect(() => {
+    if (isCheckingAuth) return;
+
+    // Decide destination only once
+    if (!hasNavigated.current) {
+      console.log("Segments",segments)
+      const inAuthGroup = segments[0] === "(authenticated)";
+
+      if (user && !inAuthGroup) {
+        router.replace("/(authenticated)/(tabs)/today");
+      } else if (!user && inAuthGroup) {
+        router.replace("/");
+      }
+
+      hasNavigated.current = true;
+    }
+
+    // Now we’re done deciding — hide the splash screen and render the app
+    SplashScreen.hideAsync();
+    setReady(true);
+  }, [isCheckingAuth, user, segments]);
+
+  // While checking or before hideAsync, render nothing (native splash still showing)
+  if (!ready) {
     return null;
   }
 
+  // When ready, mount the Expo Router slot
+  return <Slot />;
+}
+
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <UserProvider>
+      <Gate />
+      <Toast />
+    </UserProvider>
   );
 }
